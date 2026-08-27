@@ -7961,8 +7961,8 @@
                       <th>Usuário</th>
                       <th>Nível</th>
                       <th>Cargo</th>
-                      <th>Função</th>
                       <th>Unidade</th>
+                      <th>E-mail / Login</th>
                       <th>Status</th>
                       <th></th>
                     </tr>
@@ -14507,7 +14507,20 @@
     function boolBadge(v) { return v ? '<span class="status-pill"><i class="fa-solid fa-circle"></i>Sim</span>' : '<span class="status-pill off"><i class="fa-solid fa-circle"></i>Não</span>' }
     function activeBadge(v) { return v !== false ? '<span class="status-pill"><i class="fa-solid fa-circle"></i>Ativo</span>' : '<span class="status-pill off"><i class="fa-solid fa-circle"></i>Inativo</span>' }
     const CONFIG_META = {
-      usuarios: { title: 'usuário', columns: ['usuario', 'nivel', 'cargo', 'funcao', 'unidade', 'ativo'], fields: [['usuario', 'Nome do usuário', 'text', true], ['email', 'E-mail / login', 'email', false], ['nivel', 'Nível de acesso', 'select', true, ['Operacional', 'Gestor', 'Administrador', 'Conselho Tutelar']], ['cargo', 'Cargo', 'text', true], ['funcao', 'Função', 'text', true], ['unidade', 'Unidade', 'text', true], ['ativo', 'Usuário ativo', 'checkbox', false]] },
+      usuarios: {
+        title: 'usuário',
+        columns: ['usuario', 'nivel', 'cargo', 'unidade', 'email', 'ativo'],
+        fields: [
+          ['usuario', 'Nome do usuário', 'text', true],
+          ['email', 'E-mail / login', 'email', false],
+          ['nivel', 'Nível de acesso', 'select', true, ['Usuário', 'Administrador', 'Conselho Tutelar', 'Operacional', 'Desativado']],
+          ['cargo', 'Cargo', 'text', true],
+          ['unidade', 'Unidade', 'dynamic-escola-plus', true],
+          ['login', 'Usuário (Login)', 'text', false],
+          ['senha', 'Senha', 'password', false],
+          ['ativo', 'Usuário ativo', 'checkbox', false]
+        ]
+      },
       escolas: { title: 'escola', columns: ['inep', 'nome', 'diretor', 'bairro', 'telefone', 'email', 'modalidade', 'ativo'], fields: [['inep', 'Código INEP', 'text', false], ['nome', 'Nome da unidade escolar', 'text', true], ['diretor', 'Diretor(a)', 'text', false], ['endereco', 'Endereço completo', 'text', true], ['bairro', 'Bairro / Localidade', 'text', false], ['telefone', 'Telefone / Ramal', 'text', false], ['email', 'E-mail institucional', 'email', false], ['modalidade', 'Modalidade de Ensino', 'dynamic-modalidade', false], ['maps_link', 'Link no Google Maps', 'text', false], ['ativo', 'Unidade ativa', 'checkbox', false]] },
       turmas: { title: 'turma', columns: ['ano', 'turma', 'turno', 'modalidade', 'escola', 'ativo'], fields: [['ano', 'Ano Escolar', 'text', true], ['turma', 'Turma', 'text', true], ['turno', 'Turno', 'select', true, ['Manhã', 'Tarde', 'Noite', 'Integral']], ['modalidade', 'Modalidade', 'dynamic-modalidade', true], ['escola', 'Escola', 'dynamic-escola', false], ['ativo', 'Turma ativa', 'checkbox', false]] },
       modalidades: { title: 'modalidade', columns: ['nome', 'descricao', 'ativo'], fields: [['nome', 'Nome da modalidade', 'text', true], ['descricao', 'Descrição', 'textarea', false], ['ativo', 'Modalidade ativa', 'checkbox', false]] },
@@ -14542,7 +14555,11 @@
         const set = new Set([...list, ...defaults]);
         return Array.from(set);
       }
-      if (kind === 'dynamic-escola') return (configData.escolas || []).filter(x => x.ativo !== false).map(x => x.nome);
+      if (kind === 'dynamic-escola' || kind === 'dynamic-escola-plus') {
+        const schools = (configData.escolas || []).filter(x => x.ativo !== false).map(x => x.nome);
+        const defaults = ['SMEDU', 'Conselho Tutelar de Itaguaí', 'Secretaria Municipal de Educação'];
+        return Array.from(new Set([...defaults, ...schools]));
+      }
       return [];
     }
 
@@ -14554,13 +14571,16 @@
         case 'endereco': return 'fa-solid fa-location-dot';
         case 'bairro': return 'fa-solid fa-map-pin';
         case 'telefone': return 'fa-solid fa-phone';
-        case 'email': return 'fa-solid fa-envelope';
+        case 'email': return 'fa-regular fa-envelope';
         case 'modalidade': return 'fa-solid fa-layer-group';
         case 'maps_link': return 'fa-solid fa-link';
-        case 'usuario': return 'fa-solid fa-user';
+        case 'usuario': return 'fa-regular fa-user';
+        case 'login': return 'fa-regular fa-user';
+        case 'senha': return 'fa-solid fa-key';
+        case 'nivel': return 'fa-solid fa-key';
         case 'cargo': return 'fa-solid fa-id-badge';
         case 'funcao': return 'fa-solid fa-briefcase';
-        case 'unidade': return 'fa-solid fa-building';
+        case 'unidade': return 'fa-solid fa-building-columns';
         case 'ano': return 'fa-solid fa-calendar';
         case 'turma': return 'fa-solid fa-chalkboard-user';
         case 'turno': return 'fa-solid fa-clock';
@@ -14609,7 +14629,7 @@
           if (key === 'visualizar' || key === 'cadastrar' || key === 'editar' || key === 'excluir') toggleDesc = 'Concede esta ação para o perfil selecionado';
 
           return `
-            <div class="config-toggle-card">
+            <div class="config-toggle-card full col-span-2">
               <label class="config-toggle-label">
                 <input type="checkbox" data-config-field="${key}" ${isChecked ? 'checked' : ''}>
                 <span class="toggle-slider"></span>
@@ -14637,6 +14657,12 @@
           `;
         } else if (kind === 'textarea') {
           inputHtml = `<textarea data-config-field="${key}" ${req} placeholder="Digite ${label.toLowerCase()}...">${escapeHtml(String(val || ''))}</textarea>`;
+        } else if (kind === 'password' || key === 'senha') {
+          const pwdPlaceholder = id ? 'Senha (deixe em branco para manter a atual)' : 'Senha *';
+          inputHtml = `
+            <input data-config-field="${key}" type="password" ${req} placeholder="${pwdPlaceholder}" autocomplete="new-password" style="padding-right: 42px;">
+            <button type="button" class="btn-toggle-cfg-pwd" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#64748b; cursor:pointer; font-size:14px; padding:4px; z-index:5;" onclick="const inp=this.previousElementSibling; const isP=inp.type==='password'; inp.type=isP?'text':'password'; this.firstElementChild.className=isP?'fa-solid fa-eye-slash':'fa-solid fa-eye';" title="Exibir/ocultar senha"><i class="fa-solid fa-eye"></i></button>
+          `;
         } else {
           inputHtml = `<input data-config-field="${key}" type="${kind}" ${kind === 'number' ? 'min="1" step="1"' : ''} value="${escapeHtml(String(val ?? (kind === 'number' ? '1' : '')))}" ${req} placeholder="Digite ${label.toLowerCase()}...">`;
         }
@@ -14659,15 +14685,38 @@
     function closeConfigModal() { $('#configModal').classList.remove('open'); $('#configModal').setAttribute('aria-hidden', 'true'); configEditing = { type: null, id: null } }
     function collectConfigForm() { const data = {}; $$('#configForm [data-config-field]').forEach(el => { const k = el.dataset.configField; data[k] = el.type === 'checkbox' ? el.checked : (el.type === 'number' ? Number(el.value || 0) : el.value.trim()) }); return data }
     function validateConfig(type, data) { const meta = CONFIG_META[type]; for (const [key, label, , required] of meta.fields) { if (required && (data[key] === undefined || data[key] === null || String(data[key]).trim() === '')) return `${label} é obrigatório.` } return '' }
-    function saveConfigRecord() {
+    async function saveConfigRecord() {
       const { type, id } = configEditing; if (!type) return; const data = collectConfigForm(), err = validateConfig(type, data); if (err) { toast(err); return }
       const list = configData[type] || (configData[type] = []);
       if (type === 'escolas' && list.some(x => x.id !== id && sameText(x.nome, data.nome))) { toast('Já existe uma escola com esse nome.'); return }
       if (type === 'turmas' && list.some(x => x.id !== id && sameText(x.turma, data.turma) && sameText(x.escola, data.escola))) { toast('Esta turma já está cadastrada para a unidade informada.'); return }
       if (type === 'modalidades' && list.some(x => x.id !== id && sameText(x.nome, data.nome))) { toast('Esta modalidade já está cadastrada.'); return }
-      if (id) { const idx = list.findIndex(x => x.id === id); if (idx >= 0) list[idx] = { ...list[idx], ...data, id } }
-      else list.push({ ...data, id: cfgId(type.slice(0, 3)) });
-      saveConfigData(); renderConfig(type); syncConfigToFicai(); closeConfigModal(); toast(`${CONFIG_META[type].title.charAt(0).toUpperCase() + CONFIG_META[type].title.slice(1)} salvo(a) com sucesso.`)
+      
+      let savedId = id;
+      if (id) {
+        const idx = list.findIndex(x => x.id === id);
+        if (idx >= 0) list[idx] = { ...list[idx], ...data, id };
+      } else {
+        savedId = cfgId(type.slice(0, 3));
+        list.push({ ...data, id: savedId });
+      }
+
+      // Sincronização com Supabase para Usuários
+      if (type === 'usuarios' && window.UserService && typeof window.UserService.saveUser === 'function') {
+        try {
+          await window.UserService.saveUser({ ...data, id: savedId });
+        } catch (_uErr) {
+          console.warn('Erro na sincronização de usuário com Supabase Auth:', _uErr);
+        }
+      }
+
+      saveConfigData();
+      renderConfig(type);
+      syncConfigToFicai();
+      closeConfigModal();
+      toast(type === 'usuarios'
+        ? 'Usuário e credenciais Supabase Auth salvos com sucesso!'
+        : `${CONFIG_META[type].title.charAt(0).toUpperCase() + CONFIG_META[type].title.slice(1)} salvo(a) com sucesso.`);
     }
     function deleteConfigRecord(type, id) { const rec = (configData[type] || []).find(x => x.id === id); if (!rec) return; const label = rec.nome || rec.usuario || rec.turma || rec.perfil || 'este cadastro'; if (!confirm(`Excluir “${label}”?\n\nRegistros já salvos em FICAIs não serão apagados.`)) return; configData[type] = configData[type].filter(x => x.id !== id); saveConfigData(); renderConfig(type); syncConfigToFicai(); toast('Cadastro excluído.') }
     function uniqueValues(arr) { return [...new Set(arr.filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true })) }
@@ -15812,8 +15861,8 @@
         + '<div class="hist-form-footer">'
         + '<span class="hist-audit-note"><i class="fa-solid fa-lock"></i>Acrescenta ao hist&oacute;rico sem substituir registros anteriores.</span>'
         + '<button class="hist-btn-cancel" type="button" id="hfBtnCancel">Cancelar</button>'
-        + sendBtn
         + '<button class="hist-btn-save" type="button" id="hfBtnSave"><i class="fa-solid fa-plus"></i> Salvar no hist&oacute;rico</button>'
+        + sendBtn
         + '</div>'
         + '</div>';
     }
