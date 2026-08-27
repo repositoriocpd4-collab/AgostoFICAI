@@ -1,0 +1,19 @@
+{
+  "name": "ficai-4.0-smedu-itaguai",
+  "version": "4.2.1",
+  "description": "Sistema de Ficha de Comunicação do Aluno Infrequente — SMEDU Itaguaí",
+  "main": "index.html",
+  "scripts": {
+    "start": "node dev_server.js",
+    "dev": "node dev_server.js",
+    "build": "echo 'No build step required for static site'"
+  },
+  "keywords": [
+    "ficai",
+    "smedu",
+    "itaguai",
+    "evasao-escolar"
+  ],
+  "author": "Secretaria Municipal de Educação de Itaguaí - SMEDU/CPD",
+  "license": "MIT"
+}

@@ -4,8 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal FICAI/SMEDU </title>
-  <link rel="icon" href="https://novoportal.itaguai.rj.gov.br/++resource++gov.cidades/favicon.ico" />
+  <link rel="icon" href="ICON.png" type="image/png" />
+  <link rel="apple-touch-icon" href="ICON.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FICAISMEDU">
+  <meta name="theme-color" content="#1d4ed8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -4649,15 +4654,379 @@
       }
     }
 
+    /* ==============================================================================
+       SISTEMA DE DESIGN NEUMÓRFICO / SOFT UI E RESPONSIVIDADE MOBILE COMPLETA
+       ============================================================================== */
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --soft-shadow: 6px 8px 20px rgba(166, 180, 200, 0.35), -6px -6px 18px rgba(255, 255, 255, 0.95);
+      --soft-shadow-inset: inset 3px 3px 6px rgba(166, 180, 200, 0.25), inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+      --primary-gradient: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+      --primary-glow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    body {
+      background-color: var(--bg);
+    }
+
+    .card, .form-card, .wizard-header-card, .stat-card, .panel {
+      border-radius: 20px !important;
+      box-shadow: var(--soft-shadow) !important;
+      border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .btn, .btn.primary, .btn.soft, .form-toolbar-btn {
+      border-radius: 24px !important;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .btn.primary {
+      background: var(--primary-gradient) !important;
+      box-shadow: var(--primary-glow) !important;
+      color: #ffffff !important;
+      border: none !important;
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45) !important;
+    }
+
+    .btn.primary:active, .btn:active {
+      transform: scale(0.97) !important;
+    }
+
+    .btn.soft {
+      background: #f0f5fc !important;
+      color: #1d4ed8 !important;
+      border: 1px solid #dbeafe !important;
+      box-shadow: 3px 3px 8px rgba(166, 180, 200, 0.25), -3px -3px 8px rgba(255, 255, 255, 0.85) !important;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+      border-radius: 14px !important;
+      background: #f8fafc !important;
+      border: 1px solid #cbd5e1 !important;
+      padding: 10px 16px !important;
+      font-size: 14px !important;
+      transition: all 0.2s ease !important;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      background: #ffffff !important;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+      outline: none !important;
+    }
+
+    .mobile-step-banner {
+      display: none;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-top: 14px;
+      padding: 8px 14px;
+      background: #eff6ff;
+      border-radius: 20px;
+      box-shadow: inset 1px 2px 4px rgba(37, 99, 235, 0.12);
+    }
+
+    /* REGRAS EXCLUSIVAS DE RESPONSIVIDADE E UX MOBILE (SMARTPHONE) */
     @media (max-width: 768px) {
-      .step-item-title {
-        font-size: 10px;
+      .state {
+        display: none !important;
+      }
+
+      .breadcrumb span:not(.school), .breadcrumb .sep {
+        display: none !important;
+      }
+
+      .top-row {
+        height: auto !important;
+        padding: 8px 14px !important;
+      }
+
+      .bottom-row {
+        height: auto !important;
+        padding: 8px 14px !important;
+        gap: 8px !important;
+      }
+
+      .gov-logo {
+        width: 60px !important;
+        height: 24px !important;
+      }
+
+      #headerUserUnit {
+        display: none !important;
+      }
+
+      #headerUserName {
+        font-size: 11.5px !important;
+        max-width: 110px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      .mobile-step-banner {
+        display: block !important;
+      }
+
+      .horizontal-stepper-track .step-item-title {
+        display: none !important;
+      }
+
+      .stepper-line-bg, .stepper-line-fill {
+        top: 18px !important;
       }
 
       .step-item-node {
-        width: 36px;
-        height: 36px;
-        font-size: 13px;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 12.5px !important;
+      }
+
+      .wizard-header-card {
+        padding: 16px 12px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .form-card {
+        padding: 18px 14px !important;
+      }
+
+      .page-head {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
+
+      .action-row {
+        width: 100% !important;
+        flex-direction: column !important;
+      }
+
+      .action-row .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        min-height: 46px !important;
+      }
+
+      .wizard-footer-bar {
+        flex-direction: column-reverse !important;
+        gap: 10px !important;
+        padding: 14px 12px !important;
+      }
+
+      .wizard-footer-bar .btn {
+        width: 100% !important;
+        min-height: 46px !important;
+        justify-content: center !important;
+      }
+
+      .form-toolbar {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 12px 14px !important;
+      }
+
+      .table-wrap {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+    }
+
+    /* ==============================================================================
+       BANNER DE INSTALAÇÃO INTELIGENTE PWA NEUMÓRFICO (#pwaInstallBanner)
+       ============================================================================== */
+    .pwa-banner-card {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 16px 20px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: pwaSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.dark .pwa-banner-card {
+      background: #1e293b;
+      border-color: #334155;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .pwa-banner-card.hidden {
+      display: none !important;
+    }
+
+    @keyframes pwaSlideUp {
+      from { opacity: 0; transform: translate(-50%, 30px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    .pwa-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pwa-app-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 4px 4px 12px rgba(166, 180, 200, 0.35), -4px -4px 12px rgba(255, 255, 255, 0.9);
+      flex-shrink: 0;
+    }
+
+    .pwa-text-group {
+      flex: 1;
+    }
+
+    .pwa-app-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    body.dark .pwa-app-title {
+      color: #f8fafc;
+    }
+
+    .pwa-app-desc {
+      font-size: 12px;
+      color: #475569;
+      margin: 4px 0 0;
+      line-height: 1.35;
+    }
+
+    body.dark .pwa-app-desc {
+      color: #cbd5e1;
+    }
+
+    .pwa-banner-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .pwa-banner-actions .btn {
+      flex: 1;
+      height: 42px;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ==============================================================================
+       BARRA DE NAVEGAÇÃO INFERIOR MOBILE (BOTTOM NAV NEUMÓRFICA)
+       ============================================================================== */
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-radius: 22px 22px 0 0;
+        box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.12), 0 -2px 6px rgba(0, 0, 0, 0.04);
+        border-top: 1px solid rgba(255, 255, 255, 0.8);
+        z-index: 9990;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 10px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      body.dark .mobile-bottom-nav {
+        background: #1e293b;
+        border-top-color: #334155;
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        flex: 1;
+        height: 100%;
+        color: #64748b;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        border: none;
+        background: transparent;
+      }
+
+      .bottom-nav-icon {
+        width: 38px;
+        height: 28px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 17px;
+        transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .bottom-nav-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        transition: color 0.2s ease, font-weight 0.2s ease;
+      }
+
+      .bottom-nav-item.active {
+        color: #1d4ed8;
+      }
+
+      .bottom-nav-item.active .bottom-nav-icon {
+        background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(29, 78, 216, 0.38);
+        transform: translateY(-2px);
+      }
+
+      .bottom-nav-item.active .bottom-nav-label {
+        color: #1d4ed8;
+        font-weight: 800;
+      }
+
+      body.dark .bottom-nav-item.active {
+        color: #60a5fa;
+      }
+
+      body.dark .bottom-nav-item.active .bottom-nav-label {
+        color: #60a5fa;
+      }
+
+      .content {
+        padding-bottom: 84px !important;
+      }
+
+      .pwa-banner-card {
+        bottom: 80px !important;
       }
     }
 
@@ -5971,6 +6340,7 @@
               src="data:image/png;base64,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"><span
               class="state">Estado do Rio de Janeiro</span></div>
           <div class="header-links">
+            <button id="btnHeaderInstallPwa" class="header-icon-btn" title="Instalar App FICAISMEDU na tela inicial" aria-label="Instalar App FICAISMEDU na tela inicial" data-tooltip="Instalar App FICAISMEDU na tela inicial"><i class="fa-solid fa-download"></i></button>
             <button id="darkToggle" class="header-icon-btn" data-tooltip="Alternar tema Claro / Escuro (Alt+D)"><i
                 class="fa-solid fa-moon"></i></button>
             <div class="notification-wrap">
@@ -6262,9 +6632,7 @@
               <h1 class="page-title">Gerar FICAI</h1>
               <p class="page-subtitle">Cadastro, diagnóstico, acompanhamento e emissão da ficha oficial em A4.</p>
             </div>
-            <div class="action-row"><button class="btn soft" id="loadDemo"
-                data-tooltip="Preencher formulário com dados demonstrativos para teste rápido"><i
-                  class="fa-solid fa-wand-magic-sparkles"></i> Carregar exemplo</button><button class="btn primary"
+            <div class="action-row"><button class="btn primary"
                 id="topPreview" data-tooltip="Abrir pré-visualização do espelho oficial A4 para impressão"><i
                   class="fa-solid fa-file-pdf"></i> Visualizar A4</button></div>
           </div>
@@ -6304,6 +6672,9 @@
                 <div class="step-item-node"><span class="node-icon">6</span></div>
                 <span class="step-item-title">Revisão e PDF</span>
               </button>
+            </div>
+            <div class="mobile-step-banner" id="mobileStepBanner">
+              Etapa <span id="mobileStepNum">1</span> de 6: <strong id="mobileStepTitle">Escola e aluno</strong>
             </div>
           </div>
 
@@ -7669,66 +8040,9 @@
             </div>
           </div>
 
-          <!-- 1. Barra de Filtros Superior (1 Linha Completa) -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-            <div style="display: grid; grid-template-columns: 130px 1fr 180px 180px auto auto; gap: 12px; align-items: flex-end;">
-              <div>
-                <label style="font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 5px;">N.º FICAI</label>
-                <input type="text" id="cancScreenFilterNum" placeholder="Ex.: 0021" class="dash-input" style="height: 38px; padding: 0 12px; font-size: 13px;">
-              </div>
-              <div>
-                <label style="font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 5px;">Nome do Aluno</label>
-                <input type="text" id="cancScreenFilterNome" placeholder="Digite o nome do aluno" class="dash-input" style="height: 38px; padding: 0 12px; font-size: 13px;">
-              </div>
-              <div>
-                <label style="font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 5px;">Turma</label>
-                <select id="cancScreenFilterTurma" class="dash-select" style="height: 38px; font-size: 12.5px;">
-                  <option value="">Selecione a turma</option>
-                  <option value="6A">6º Ano A (6A)</option>
-                  <option value="7B">7º Ano B (7B)</option>
-                  <option value="8A">8º Ano A (8A)</option>
-                  <option value="9B">9º Ano B (9B)</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-size: 11.5px; font-weight: 700; color: #475569; display: block; margin-bottom: 5px;">Status</label>
-                <select id="cancScreenFilterStatus" class="dash-select" style="height: 38px; font-size: 12.5px;">
-                  <option value="">Selecione o status</option>
-                  <option value="Ativa">Ativa</option>
-                  <option value="Em análise">Em análise</option>
-                  <option value="Encaminhada">Encaminhada</option>
-                  <option value="Cancelada">Cancelada</option>
-                </select>
-              </div>
-              <button type="button" id="btnCancScreenSearch" class="btn primary" style="background: #2563eb; height: 38px; padding: 0 18px; font-weight: 700; border-radius: 9px; font-size: 13px;">
-                <i class="fa-solid fa-magnifying-glass"></i> Buscar
-              </button>
-              <button type="button" id="btnCancScreenClear" class="btn soft" style="height: 38px; padding: 0 16px; font-size: 13px; font-weight: 600; border-radius: 9px;">
-                <i class="fa-solid fa-filter-circle-xmark"></i> Limpar filtros
-              </button>
-            </div>
-          </div>
-
-          <!-- 2. Grid Principal em 2 Colunas -->
-          <div style="display: grid; grid-template-columns: 310px 1fr; gap: 20px; align-items: start;">
-
-            <!-- COLUNA 1 (ESQUERDA): Histórico Vertical da FICAI -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-
-              <!-- Card: Histórico da FICAI Selecionada (Linha do Tempo) -->
-              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-                <h3 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 16px;">Histórico da FICAI selecionada</h3>
-                
-                <div id="cancScreenTimelineBox" style="display: flex; flex-direction: column; gap: 16px; position: relative; padding-left: 24px;">
-                  <div style="font-size: 12.5px; color: #94a3b8; font-style: italic; margin-left: -24px; text-align: center; padding: 12px 0;">
-                    Nenhum histórico disponível para a FICAI selecionada.
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- COLUNA 2 (CENTRAL): Form com Stepper 1-2-3 + Mini Tabela + Callouts -->
+          <!-- Conteúdo Principal da Tela de Cancelamento -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Form com Stepper 1-2-3 + Mini Tabela + Callouts -->
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 20px;">
               <div>
                 <h2 style="font-size: 18px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
@@ -8712,67 +9026,10 @@
                     </tr>
                   </thead>
                   <tbody id="cancTableBody">
-                    <tr class="canc-row active" data-ficai="0021" data-student="Ana Clara Nascimento" data-turma="7B"
-                      data-escola="E.M. Elmir Figueira" data-status="Ativa" data-date="18/08/2026"
-                      style="cursor: pointer; background: #eff6ff;">
-                      <td style="padding: 7px 6px; font-weight: 700; color: #1d4ed8;">0021</td>
-                      <td style="padding: 7px 6px; font-weight: 600;">Ana Clara Nascimento</td>
-                      <td style="padding: 7px 6px;">7B</td>
-                      <td style="padding: 7px 6px; color: #64748b;">E.M. Elmir Figueira</td>
-                      <td style="padding: 7px 6px;"><span class="chip"
-                          style="background: #dcfce7; color: #15803d; font-weight: 700; font-size: 10.5px;">Ativa</span>
-                      </td>
-                      <td style="padding: 7px 6px; text-align: center;">
-                        <div style="display: inline-flex; gap: 4px;">
-                          <button type="button" class="btn small soft canc-select-btn"
-                            style="padding: 3px 6px; font-size: 10.5px;"><i class="fa-solid fa-eye"></i>
-                            Visualizar</button>
-                          <button type="button" class="btn small canc-trigger-btn"
-                            style="padding: 3px 6px; font-size: 10.5px; color: #ef4444; border: 1px solid #fca5a5; background: #fff5f5; font-weight: 700;"><i
-                              class="fa-solid fa-circle-xmark"></i> Cancelar</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="canc-row" data-ficai="0022" data-student="João Pedro Lima" data-turma="8A"
-                      data-escola="E.M. Elmir Figueira" data-status="Em análise" data-date="19/08/2026"
-                      style="cursor: pointer;">
-                      <td style="padding: 7px 6px; font-weight: 700;">0022</td>
-                      <td style="padding: 7px 6px; font-weight: 600;">João Pedro Lima</td>
-                      <td style="padding: 7px 6px;">8A</td>
-                      <td style="padding: 7px 6px; color: #64748b;">E.M. Elmir Figueira</td>
-                      <td style="padding: 7px 6px;"><span class="chip"
-                          style="background: #fef3c7; color: #b45309; font-weight: 700; font-size: 10.5px;">Em
-                          análise</span></td>
-                      <td style="padding: 7px 6px; text-align: center;">
-                        <div style="display: inline-flex; gap: 4px;">
-                          <button type="button" class="btn small soft canc-select-btn"
-                            style="padding: 3px 6px; font-size: 10.5px;"><i class="fa-solid fa-eye"></i>
-                            Visualizar</button>
-                          <button type="button" class="btn small canc-trigger-btn"
-                            style="padding: 3px 6px; font-size: 10.5px; color: #ef4444; border: 1px solid #fca5a5; background: #fff5f5; font-weight: 700;"><i
-                              class="fa-solid fa-circle-xmark"></i> Cancelar</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="canc-row" data-ficai="0015" data-student="Eduarda Gomes" data-turma="7B"
-                      data-escola="E.M. Elmir Figueira" data-status="Ativa" data-date="20/08/2026"
-                      style="cursor: pointer;">
-                      <td style="padding: 7px 6px; font-weight: 700;">0015</td>
-                      <td style="padding: 7px 6px; font-weight: 600;">Eduarda Gomes</td>
-                      <td style="padding: 7px 6px;">7B</td>
-                      <td style="padding: 7px 6px; color: #64748b;">E.M. Elmir Figueira</td>
-                      <td style="padding: 7px 6px;"><span class="chip"
-                          style="background: #dcfce7; color: #15803d; font-weight: 700; font-size: 10.5px;">Ativa</span>
-                      </td>
-                      <td style="padding: 7px 6px; text-align: center;">
-                        <div style="display: inline-flex; gap: 4px;">
-                          <button type="button" class="btn small soft canc-select-btn"
-                            style="padding: 3px 6px; font-size: 10.5px;"><i class="fa-solid fa-eye"></i>
-                            Visualizar</button>
-                          <button type="button" class="btn small canc-trigger-btn"
-                            style="padding: 3px 6px; font-size: 10.5px; color: #ef4444; border: 1px solid #fca5a5; background: #fff5f5; font-weight: 700;"><i
-                              class="fa-solid fa-circle-xmark"></i> Cancelar</button>
-                        </div>
+                    <tr>
+                      <td colspan="6" style="text-align: center; padding: 24px; color: #94a3b8; font-size: 12.5px;">
+                        <i class="fa-solid fa-folder-circle-xmark" style="font-size: 20px; color: #cbd5e1; margin-bottom: 6px; display: block;"></i>
+                        Nenhuma FICAI ativa para cancelamento.
                       </td>
                     </tr>
                   </tbody>
@@ -9881,6 +10138,12 @@
 
     // Navegação
     function showView(name) {
+      if (!name) name = 'dashboard';
+      if (name === 'login') {
+        if (typeof showLoginView === 'function') showLoginView();
+        return;
+      }
+
       const session = typeof getActiveSession === 'function' ? getActiveSession() : null;
       const isAdmin = !!(session && (session.isSystemAdmin || session.nivel === 'Administrador' || session.email === 'cpdinfra@edu.itaguai.rj.gov.br'));
       const isCT = !!(session && session.nivel === 'ConselhoTutelar');
@@ -9899,6 +10162,10 @@
       $$('.view').forEach(v => v.classList.remove('active'));
       $('#view-' + name)?.classList.add('active');
       $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+      $$('.bottom-nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+      if (window.location.hash !== '#' + name) {
+        try { history.replaceState(null, '', '#' + name); } catch (_e) {}
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (innerWidth < 980) $('#sidebar').classList.remove('open');
       if (name === 'encerramento') populateEncerrarOptions();
@@ -9906,6 +10173,19 @@
       if (name === 'cancelamento' && typeof syncCancScreenCardsFromGerados === 'function') syncCancScreenCardsFromGerados();
       if (name === 'conselho' && typeof syncConselhoTableFromDatabase === 'function') syncConselhoTableFromDatabase();
     }
+
+    function initClientRouter() {
+      const path = (window.location.pathname || '').toLowerCase();
+      const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+      if (path.endsWith('/login') || hash === 'login') {
+        if (typeof showLoginView === 'function') showLoginView();
+      } else if (hash) {
+        showView(hash);
+      }
+    }
+    window.addEventListener('hashchange', initClientRouter);
+    window.addEventListener('popstate', initClientRouter);
+
     $$('.nav-item').forEach(n => n.addEventListener('click', () => showView(n.dataset.view))); $$('[data-go]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); showView(b.dataset.go) }));
     const appShell = $('.app-shell'), sidebar = $('#sidebar'), hamb = $('#hamb');
     function applySidebarState(collapsed) {
@@ -10184,7 +10464,7 @@
     });
 
     // Modal Completo de Cancelamento de FICAI (Idêntico ao Mockup)
-    let currentCancTarget = { ficai: '0021', student: 'Ana Clara Nascimento', turma: '7B', escola: 'E.M. Elmir Figueira', status: 'Ativa', date: '18/08/2026' };
+    let currentCancTarget = { ficai: '—', student: 'Nenhuma FICAI selecionada', turma: '—', escola: '—', status: '—', date: '—' };
 
     function openCancelamentoModal(ficaiNum) {
       const sel = getSelectedFicaiRow();
@@ -13005,9 +13285,6 @@
 
     $('#clearDraft').onclick = e => { e.preventDefault(); if (confirm('Limpar o formulário atual?')) { localStorage.removeItem('ficai4Draft'); $('#ficaiForm').reset(); $('#escolaEndereco').value = ''; $('#escolaTelefone').value = ''; $('#modalidade').value = ''; $('#modalidade').placeholder = 'Aguardando turma'; autoGenerateFicaiNumber(true); if (typeof autoPopulateLoggedSchoolInForm === 'function') autoPopulateLoggedSchoolInForm(); } };
     function restore() { try { const data = JSON.parse(localStorage.getItem('ficai4Draft') || 'null'); if (!data) return; Object.entries(data).forEach(([k, v]) => { const el = $('#' + k); if (!el) return; if (typeof v === 'boolean') el.checked = v; else if (typeof v === 'string') el.value = v }); (data.catalogoSituacoesPersonalizadas || []).forEach(x => createCustomStudentSituation(x, { persist: false, removable: true })); (data.catalogoVulnerabilidadesPersonalizadas || []).forEach(x => createCustomVulnerability(x, { persist: false, removable: true })); (data.motivos || []).forEach(v => { const el = [...$$('#motivosGrid input')].find(i => i.value === v); if (el) el.checked = true }); (data.vulnerabilidades || []).forEach(v => { let el = [...$$('#vulnGrid input')].find(i => i.value === v); if (!el) el = createCustomVulnerability(v, { persist: false, removable: true }); if (el) el.checked = true }); if (data.situacao) { let r = [...$$('input[name="situacaoAluno"]')].find(i => i.value === data.situacao); if (!r) r = createCustomStudentSituation({ name: data.situacao, description: 'Situação recuperada desta FICAI.' }, { persist: false, removable: true }); if (r) r.checked = true } Object.entries(data.diagnostico || {}).forEach(([g, vals]) => { const box = [...$$('#diagnosisGrid .diagnosis-box')].find(b => b.dataset.group === g); vals.forEach(v => { const el = [...box.querySelectorAll('input')].find(i => i.value === v); if (el) el.checked = true }) }); normalizeNumber(); updateFaltasCount(); updateModalidadeFromTurma() } catch (e) { } }
-
-    // Exemplo
-    $('#loadDemo').onclick = e => { e.preventDefault(); $('#escola').value = 'aparecida'; $('#escola').dispatchEvent(new Event('change')); $('#aluno').value = 'demo'; $('#aluno').dispatchEvent(new Event('change')); $('#anoEscolar').value = '7º Ano'; $('#turma').value = '7º Ano B'; $('#turma').dispatchEvent(new Event('change')); updateModalidadeFromTurma(); $('#turno').value = 'Manhã'; $('#faltaInicio').value = `${currentYear}-08-03`; $('#faltaFim').value = `${currentYear}-08-14`; $('#dataComunicacao').value = `${currentYear}-08-17`; $('#profissional').value = 'Professor(a) / Orientador(a)'; $('#assinaturaProf').value = 'Matrícula funcional'; const p = $$('[data-proc]'); p[0].checked = true; p[1].checked = true; p[2].checked = true; $$('[data-proc-date]').slice(0, 3).forEach((i, idx) => i.value = `${currentYear}-08-${String(4 + idx * 3).padStart(2, '0')}`); const motivo = [...$$('#motivosGrid input')].find(i => i.value === 'Falta de motivação'); if (motivo) motivo.checked = true; $('input[name="situacaoAluno"][value="Infrequente"]').checked = true; const vuln = [...$$('#vulnGrid input')].find(i => i.value === 'Risco Social'); if (vuln) vuln.checked = true; const diag = [...$$('#diagnosisGrid input')].find(i => i.value === 'Falta de Motivação'); if (diag) diag.checked = true; $('#observacaoInicial').value = 'Exemplo demonstrativo para visualização do fluxo e da folha A4.'; updateFaltasCount(); syncPrint(); toast('Exemplo demonstrativo carregado.') };
 
     function pset(key, value) { $$(`[data-p="${key}"]`).forEach(el => { el.textContent = value || '' }) }
     function syncPrint() {
@@ -16459,7 +16736,21 @@
           console.warn('Sincronização Supabase em background:', _syncErr);
         }
 
-        const rows = await dbGetAll('ficais');
+        let rows = await dbGetAll('ficais');
+        if (Array.isArray(rows) && rows.length > 0) {
+          const demoNums = ['0021/2026', '0017/2026', '0015/2026', '0021', '0017', '0015'];
+          let purged = false;
+          for (const r of rows) {
+            if (demoNums.includes(r.numero) || (r.aluno && (r.aluno.includes('Ana Clara') || r.aluno.includes('Bruno Henrique') || r.aluno.includes('Carla Souza')))) {
+              try { await dbDelete('ficais', r.numero); } catch (_e) {}
+              purged = true;
+            }
+          }
+          if (purged) {
+            rows = await dbGetAll('ficais');
+          }
+        }
+
         if (!Array.isArray(rows)) return;
 
         const visibleRows = rows.filter(r => isFicaiVisibleToSession(r, session));
@@ -16941,6 +17232,12 @@
         const pct = ((currentWizardStep - 1) / (TOTAL_WIZARD_STEPS - 1)) * 88;
         fillBar.style.width = `${pct}%`;
       }
+
+      // Sincronizar banner mobile
+      const mobNum = $('#mobileStepNum');
+      const mobTitle = $('#mobileStepTitle');
+      if (mobNum) mobNum.textContent = currentWizardStep;
+      if (mobTitle) mobTitle.textContent = WIZARD_STEP_TITLES[currentWizardStep - 1] || '';
 
       // Atualizar bolinhas no footer
       $$('#wizardDotsRow .wizard-dot').forEach(dot => {
@@ -17579,6 +17876,15 @@
         autoGenerateFicaiNumber(true);
         toast('Número da FICAI recalculado automaticamente.');
       });
+
+      // 6. Barra de Navegação Inferior Mobile (Bottom Nav)
+      $$('.bottom-nav-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetView = btn.dataset.view;
+          if (targetView) showView(targetView);
+        });
+      });
     }
 
     function initNotificationCenter() {
@@ -17660,11 +17966,137 @@
       updateBadgeCount();
     }
 
+    // Registrar Service Worker para PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.warn('Registro de Service Worker PWA:', err);
+        });
+      });
+    }
+
+    // Inicialização do Banner Inteligente de Instalação PWA
+    function initPwaInstallSystem() {
+      let deferredPrompt = null;
+      const banner = $('#pwaInstallBanner');
+      const btnInstall = $('#btnPwaInstallAction');
+      const btnDismiss = $('#btnPwaDismiss');
+      const pwaDescText = $('#pwaDescText');
+      const btnHeaderInstall = $('#btnHeaderInstallPwa');
+      if (btnHeaderInstall) {
+        btnHeaderInstall.onclick = (e) => {
+          e.preventDefault();
+          banner.classList.remove('hidden');
+        };
+      }
+
+      if (!banner || !btnInstall) return;
+
+      // Se já estiver rodando como PWA standalone
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                           window.navigator.standalone ||
+                           document.referrer.includes('android-app://');
+
+      if (isStandalone) return;
+
+      // Se usuário dispensou anteriormente
+      if (localStorage.getItem('ficaiPwaDismissed') === 'true') return;
+
+      // Detectar iOS
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      if (isIos) {
+        if (pwaDescText) {
+          pwaDescText.innerHTML = 'Para instalar o <strong>FICAISMEDU</strong> na sua tela de início: toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="color:#2563eb;"></i> no Safari e selecione <strong>Adicionar à Tela de Início</strong>.';
+        }
+        if (pwaBtnText) pwaBtnText.textContent = 'Entendi';
+        banner.classList.remove('hidden');
+
+        btnInstall.onclick = () => {
+          banner.classList.add('hidden');
+          localStorage.setItem('ficaiPwaDismissed', 'true');
+        };
+      } else {
+        window.addEventListener('beforeinstallprompt', e => {
+          e.preventDefault();
+          deferredPrompt = e;
+          banner.classList.remove('hidden');
+        });
+
+        btnInstall.onclick = async () => {
+          if (deferredPrompt) {
+            banner.classList.add('hidden');
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+              localStorage.setItem('ficaiPwaDismissed', 'true');
+            }
+            deferredPrompt = null;
+          } else {
+            toast('Para instalar o FICAISMEDU, toque nos 3 pontos do navegador e selecione "Adicionar à Tela Inicial" / "Instalar App".');
+            banner.classList.add('hidden');
+          }
+        };
+
+        // Exibir banner automaticamente após 1.2 segundos se não estiver instalado
+        setTimeout(() => {
+          if (!isStandalone && !localStorage.getItem('ficaiPwaDismissed')) {
+            banner.classList.remove('hidden');
+          }
+        }, 1200);
+      }
+
+      if (btnDismiss) {
+        btnDismiss.onclick = () => {
+          banner.classList.add('hidden');
+          localStorage.setItem('ficaiPwaDismissed', 'true');
+        };
+      }
+    }
+
     initActionButtonsBindings();
     initSystemLogsListeners();
     initNotificationCenter();
+    initPwaInstallSystem();
     initAuthSystem(); restore(); autoPopulateLoggedSchoolInForm(); syncPrint(); loadSavedStudents(); loadSavedFicais(); loadSavedLogsFromSupabase(); syncConselhoTableFromDatabase(); updateAllDynamicStats(); setWizardStep(1);
   </script>
+
+  <!-- BANNER DE INSTALAÇÃO INTELIGENTE PWA -->
+  <div id="pwaInstallBanner" class="pwa-banner-card hidden">
+    <div class="pwa-banner-content">
+      <img src="ICON.png" alt="FICAISMEDU Icon" class="pwa-app-icon">
+      <div class="pwa-text-group">
+        <div class="pwa-app-title">Instalar App FICAISMEDU</div>
+        <p class="pwa-app-desc" id="pwaDescText">
+          Instale o aplicativo FICAI 4.0 na sua tela inicial para acesso rápido, notificações e uso em tela cheia.
+        </p>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="btn primary pwa-install-btn" id="btnPwaInstallAction">
+        <i class="fa-solid fa-download"></i> <span id="pwaBtnText">Instalar</span>
+      </button>
+      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss">Agora não</button>
+    </div>
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR MOBILE (BOTTOM NAV NEUMÓRFICA) -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a class="bottom-nav-item active" data-view="dashboard" title="Dashboard FICAI" aria-label="Dashboard FICAI">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-chart-pie"></i></div>
+      <span class="bottom-nav-label">Dash</span>
+    </a>
+    <a class="bottom-nav-item" data-view="gerar" title="Gerar FICAI" aria-label="Gerar FICAI">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
+      <span class="bottom-nav-label">Gerar</span>
+    </a>
+    <a class="bottom-nav-item" data-view="rae" title="RAE" aria-label="RAE">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+      <span class="bottom-nav-label">RAE</span>
+    </a>
+    <a class="bottom-nav-item" data-view="encerramento" title="Encerrar / Reabrir" aria-label="Encerrar / Reabrir">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-folder-closed"></i></div>
+      <span class="bottom-nav-label">Encerrar</span>
+    </a>
+  </nav>
 </body>
 
 </html>

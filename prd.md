@@ -2,7 +2,7 @@
 
 **Sistema de Ficha de Comunicação de Aluno Infrequente**  
 **Secretaria Municipal de Educação de Itaguaí (SMEDU / CPD)**  
-*Versão Atual: 4.2.0 — Atualizado em: 26/08/2026*
+*Versão Atual: 4.2.1 — Atualizado em: 26/08/2026*
 
 ---
 
@@ -95,8 +95,8 @@ O sistema integra e consolida os fluxos intersetoriais entre:
 
 ### 4.6 Cancelamento de FICAI & Imutabilidade Permanente Auditada
 - **Módulo Dedicado (`#view-cancelamento`)**:
-  - Layout otimizado em 2 colunas para busca, confirmação e auditoria de cancelamento;
-  - Campo de busca dinâmica por **N.º FICAI**, **Nome do Aluno**, **Turma** ou **Status**;
+  - Layout simplificado focado diretamente no formulário de cancelamento com stepper 1-2-3;
+  - Remoção dos campos duplicados de busca superior e do card "Histórico da FICAI selecionada";
   - Mini-tabela de resumo com dados zerados/limpos por padrão (`—`) e nova coluna **"Última atualização"** (`DD/MM/YYYY HH:mm`);
   - Barra de pesquisa dedicada no rodapé auditável para busca instantânea no histórico de canceladas (`#cancAuditSearchInput`).
 - **Bloqueio Rigoroso de Edição**:
