@@ -1,0 +1,701 @@
+[
+  {
+    "id": "TC001",
+    "title": "Access the dashboard after signing in",
+    "description": "This verifies that an authenticated user can sign in from the landing page and reach the main dashboard successfully.",
+    "category": "User Authentication",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the case overview content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Create a new FICAI through the full wizard and preview the form",
+    "description": "This verifies that a user can complete the six-step FICAI creation flow through the A4 preview stage with the required student, absence, procedure, vulnerability, and diagnosis information.",
+    "category": "Gerar FICAI",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Start a new FICAI registration"
+      },
+      {
+        "type": "action",
+        "description": "Select a school"
+      },
+      {
+        "type": "action",
+        "description": "Fill in turma and the absence period"
+      },
+      {
+        "type": "action",
+        "description": "Mark the school procedures as completed"
+      },
+      {
+        "type": "action",
+        "description": "Select the causes and vulnerabilities"
+      },
+      {
+        "type": "action",
+        "description": "Choose the evasion diagnosis"
+      },
+      {
+        "type": "action",
+        "description": "Go to the A4 preview"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the A4 preview is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the FICAI registration data is complete"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Save a new FICAI case",
+    "description": "This verifies that a user can finish the FICAI wizard and save a new case that remains visible in the system afterward.",
+    "category": "Gerar FICAI",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Start a new FICAI registration"
+      },
+      {
+        "type": "action",
+        "description": "Select a school"
+      },
+      {
+        "type": "action",
+        "description": "Fill in turma and the absence period"
+      },
+      {
+        "type": "action",
+        "description": "Mark the school procedures as completed"
+      },
+      {
+        "type": "action",
+        "description": "Select the causes and vulnerabilities"
+      },
+      {
+        "type": "action",
+        "description": "Choose the evasion diagnosis"
+      },
+      {
+        "type": "action",
+        "description": "Submit the FICAI record"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a success confirmation is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new case is displayed in the case list"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Filter cases by student and inspect case details",
+    "description": "This verifies that a user can narrow the case list by student name or number, open a case details modal, and view the selected case information.",
+    "category": "Dashboard de Controle de Evasão",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Filter cases by student name or number"
+      },
+      {
+        "type": "action",
+        "description": "Open a student row"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the filtered case list is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the case details modal is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Filter cases by turma and clear the filters",
+    "description": "This verifies that a user can filter the dashboard by turma and then return to the full case list by clearing the filters.",
+    "category": "Dashboard de Controle de Evasão",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Filter cases by turma"
+      },
+      {
+        "type": "action",
+        "description": "Clear the filters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the full case list is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard statistics remain visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Prevent editing after cancellation is registered",
+    "description": "This verifies that once a FICAI is canceled, the record cannot be edited from the UI and remains immutable.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Find a canceled case in the summary view"
+      },
+      {
+        "type": "action",
+        "description": "Open the canceled case details"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify editing controls are not available for the canceled case"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the record is marked as canceled in the audit view"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Register a canceled case from the summary view",
+    "description": "This verifies that a user can submit a cancellation request after reviewing a case summary and see the cancellation recorded.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a case number"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "action",
+        "description": "Submit the cancellation request"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a cancellation confirmation is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the case appears in the canceled audit history"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC008",
+    "title": "Review a canceled case summary and prevent further editing",
+    "description": "This verifies that a user can locate a canceled case, review its audited summary, and that editing remains blocked after cancellation.",
+    "category": "Cancelamento de FICAI",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open the canceled cases summary"
+      },
+      {
+        "type": "action",
+        "description": "Open a canceled case record"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to edit the canceled case"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the audited summary of the canceled case is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify editing is blocked for the canceled case"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC009",
+    "title": "Find a canceled case and review its audited summary",
+    "description": "This verifies that a user can search for a canceled FICAI and see the matching summary before acting on it.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a case number"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a matching canceled case summary is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the summary shows a last update timestamp"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC010",
+    "title": "Search canceled records by student name",
+    "description": "This verifies that a user can locate a canceled FICAI using the student search path and see the correct historical result.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a student name"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the matching canceled record is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the record is shown as part of the canceled history"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC011",
+    "title": "Filter canceled records by turma",
+    "description": "This verifies that a user can narrow the canceled FICAI list by turma and see only relevant results.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a turma value"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the canceled list shows matching turma results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify non-matching records are not shown"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC012",
+    "title": "Filter canceled records by status",
+    "description": "This verifies that a user can search canceled FICAIs by status and review the corresponding audited entries.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a status value"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the canceled search results match the selected status"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the matched record appears in the audit view"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC013",
+    "title": "Search the cancellation history and view an immutable record",
+    "description": "This verifies that a user can search canceled cases by number, student, turma, or status and view a record whose details remain unchanged in the audit history.",
+    "category": "Consulta do histórico de cancelamentos",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Search the cancellation history by case number or student"
+      },
+      {
+        "type": "action",
+        "description": "Apply a turma or status filter"
+      },
+      {
+        "type": "action",
+        "description": "Open a matching audit record"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the matching cancellation record is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the record details appear immutable"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC014",
+    "title": "Search the audit history for a canceled case term",
+    "description": "This verifies that a user can search the footer audit table and find a historical canceled case record by a case term.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the audit history table in the footer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the audit history search field with a canceled case term"
+      },
+      {
+        "type": "action",
+        "description": "Submit the audit search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the matching historical record is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the canceled case details remain visible in the audit table"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC015",
+    "title": "Keep canceled audit details unchanged after reopening the record",
+    "description": "This verifies that a previously canceled record shows the same immutable audit details when revisited later in the same session.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Search for a canceled case"
+      },
+      {
+        "type": "action",
+        "description": "Open the matched audit record"
+      },
+      {
+        "type": "action",
+        "description": "Return to the canceled case search"
+      },
+      {
+        "type": "action",
+        "description": "Search for the same case again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the same canceled audit record is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the historical details are unchanged"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC016",
+    "title": "Show validation when canceling without a required selection",
+    "description": "This verifies that the cancellation form prevents submission when required case information is missing and shows a validation error.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the canceled FICAI section"
+      },
+      {
+        "type": "action",
+        "description": "Submit the cancellation request without selecting a case"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the cancellation is not registered"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC017",
+    "title": "Show and hide the password while signing in",
+    "description": "This verifies that a user can toggle password visibility on the sign-in form and still access the dashboard afterward.",
+    "category": "User Authentication",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Toggle password visibility"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main dashboard is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC018",
+    "title": "Show an empty state when no canceled cases match the search",
+    "description": "This verifies that the canceled case search clearly shows no results when the query does not match any record.",
+    "category": "Cancelamento de FICAI com Imutabilidade Auditada",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the canceled case search field with a unique non-matching term"
+      },
+      {
+        "type": "action",
+        "description": "Submit the search"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state message is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no canceled case results are displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC019",
+    "title": "Handle invalid login credentials",
+    "description": "This verifies that a user sees a validation error when submitting invalid sign-in credentials and cannot access the dashboard.",
+    "category": "User Authentication",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with invalid@example.com"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with invalid-password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a login validation error is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main dashboard is not displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]
