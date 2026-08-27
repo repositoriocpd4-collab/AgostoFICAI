@@ -610,6 +610,100 @@ const CancelamentoService = {
   }
 };
 
+const LogService = {
+  async getAll(limit = 300) {
+    const sb = getSupabase();
+    if (!sb) return [];
+    const { data, error } = await sb
+      .from('system_logs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (error) {
+      console.warn('Erro ao carregar logs do Supabase:', error);
+      return [];
+    }
+    return (data || []).map(item => ({
+      id: item.id,
+      level: item.level || 'update',
+      action: item.action || 'Evento do Sistema',
+      description: item.description || '',
+      user: item.user_email || item.user || 'Sistema',
+      details: item.details || {},
+      timestamp: item.created_at
+    }));
+  },
+
+  async add(logEntry) {
+    const sb = getSupabase();
+    if (!sb) return null;
+    const payload = {
+      id: logEntry.id || ('log-' + Date.now() + '-' + Math.floor(Math.random() * 10000)),
+      level: logEntry.level || 'update',
+      action: logEntry.action || 'Evento do Sistema',
+      description: logEntry.description || '',
+      user_email: logEntry.user || logEntry.user_email || 'Sistema',
+      details: logEntry.details || {},
+      created_at: logEntry.timestamp || new Date().toISOString()
+    };
+    const { data, error } = await sb.from('system_logs').insert([payload]).select();
+    if (error) {
+      console.warn('Erro ao salvar log no Supabase:', error);
+      return null;
+    }
+    return data?.[0];
+  },
+
+  async clearAll() {
+    const sb = getSupabase();
+    if (!sb) return false;
+    const { error } = await sb.from('system_logs').delete().neq('id', '0');
+    if (error) {
+      console.warn('Erro ao limpar logs do Supabase:', error);
+      return false;
+    }
+    return true;
+  }
+};
+
+const EncerramentoService = {
+  async getAll(filters = {}) {
+    const sb = getSupabase();
+    if (!sb) return [];
+    let query = sb.from('encerramentos_ficais').select('*').order('data_evento', { ascending: false });
+    if (filters.ficai_numero) query = query.eq('ficai_numero', filters.ficai_numero);
+    const { data, error } = await query;
+    if (error) {
+      console.warn('Erro ao carregar encerramentos do Supabase:', error);
+      return [];
+    }
+    return data || [];
+  },
+
+  async insert(record) {
+    const sb = getSupabase();
+    if (!sb) return null;
+    const payload = {
+      id: record.id || ('enc-' + Date.now()),
+      ficai_numero: record.ficai_numero || record.numero || record.ficai,
+      aluno_nome: record.aluno_nome || record.aluno || record.student || 'Aluno',
+      escola_nome: record.escola_nome || record.escola || '',
+      turma: record.turma || '',
+      tipo_acao: record.tipo_acao || record.tipo || 'Encerramento',
+      motivo: record.motivo || '',
+      justificativa: record.justificativa || '',
+      responsavel: record.responsavel || '',
+      data_evento: record.data_evento || record.date || new Date().toISOString()
+    };
+    const { data, error } = await sb.from('encerramentos_ficais').insert([payload]).select();
+    if (error) {
+      console.warn('Erro ao salvar encerramento no Supabase:', error);
+      return null;
+    }
+    return data?.[0];
+  }
+};
+
 // Exporta para escopo global se em navegador
 if (typeof window !== 'undefined') {
   window.SupabaseConfig = { SUPABASE_URL, SUPABASE_ANON_KEY, STORAGE_BUCKET_DOCS };
@@ -620,4 +714,6 @@ if (typeof window !== 'undefined') {
   window.MarcadorService = MarcadorService;
   window.EscolaService = EscolaService;
   window.CancelamentoService = CancelamentoService;
+  window.LogService = LogService;
+  window.EncerramentoService = EncerramentoService;
 }
