@@ -704,6 +704,111 @@ const EncerramentoService = {
   }
 };
 
+const UserService = {
+  async getAll() {
+    const sb = getSupabase();
+    if (!sb) return [];
+    const { data, error } = await sb.from('usuarios').select('*').order('usuario');
+    if (error) {
+      console.warn('Erro ao carregar usuarios do Supabase:', error);
+      return [];
+    }
+    return data || [];
+  },
+
+  async saveUser(user) {
+    const sb = getSupabase();
+    if (!sb) return null;
+
+    const email = (user.email || '').trim().toLowerCase();
+    const nome = user.usuario || user.nome || 'Usuário';
+    const login = user.login || user.usuario || email.split('@')[0];
+    const nivel = user.nivel || 'Usuário';
+    const cargo = user.cargo || '';
+    const funcao = user.funcao || user.cargo || '';
+    const unidade = user.unidade || '';
+    const senha = user.senha || '';
+    const ativo = user.ativo !== false;
+
+    // 1. Tenta executar via RPC seguro (atualiza auth.users + public.usuarios)
+    try {
+      const { data, error } = await sb.rpc('ficai_upsert_auth_user', {
+        p_id: user.id || null,
+        p_nome: nome,
+        p_email: email,
+        p_login: login,
+        p_nivel: nivel,
+        p_cargo: cargo,
+        p_funcao: funcao,
+        p_unidade: unidade,
+        p_senha: senha,
+        p_ativo: ativo
+      });
+
+      if (!error && data) {
+        return data;
+      }
+      if (error) {
+        console.info('RPC ficai_upsert_auth_user indisponível ou erro, usando fallback direto na tabela:', error.message);
+      }
+    } catch (_rpcErr) {
+      console.warn('Exceção ao chamar RPC ficai_upsert_auth_user:', _rpcErr);
+    }
+
+    // 2. Fallback direto na tabela public.usuarios
+    const payload = {
+      id: user.id || ('usr-' + Date.now()),
+      usuario: nome,
+      email: email,
+      login: login,
+      nivel: nivel,
+      cargo: cargo,
+      funcao: funcao,
+      unidade: unidade,
+      ativo: ativo,
+      updated_at: new Date().toISOString()
+    };
+
+    const { data: dbUser, error: dbErr } = await sb.from('usuarios').upsert([payload]).select();
+    if (dbErr) {
+      console.warn('Erro ao persistir usuario na tabela public.usuarios:', dbErr);
+    }
+
+    // 3. Se foi fornecida senha e e-mail e temos Supabase Auth signUp fallback
+    if (email && senha && senha.length >= 6) {
+      try {
+        await sb.auth.signUp({
+          email,
+          password: senha,
+          options: {
+            data: {
+              name: nome,
+              role: nivel,
+              cargo: cargo,
+              unidade: unidade
+            }
+          }
+        });
+      } catch (_authErr) {
+        console.warn('Tentativa de signUp auth fallback:', _authErr);
+      }
+    }
+
+    return dbUser?.[0] || payload;
+  },
+
+  async deleteUser(id) {
+    const sb = getSupabase();
+    if (!sb || !id) return false;
+    const { error } = await sb.from('usuarios').delete().eq('id', id);
+    if (error) {
+      console.warn('Erro ao excluir usuario no Supabase:', error);
+      return false;
+    }
+    return true;
+  }
+};
+
 // Exporta para escopo global se em navegador
 if (typeof window !== 'undefined') {
   window.SupabaseConfig = { SUPABASE_URL, SUPABASE_ANON_KEY, STORAGE_BUCKET_DOCS };
@@ -716,4 +821,6 @@ if (typeof window !== 'undefined') {
   window.CancelamentoService = CancelamentoService;
   window.LogService = LogService;
   window.EncerramentoService = EncerramentoService;
+  window.UserService = UserService;
 }
+
