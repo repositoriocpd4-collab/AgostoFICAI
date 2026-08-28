@@ -5833,6 +5833,52 @@
     body.dark-mode .notif-time {
       color: #94a3b8 !important;
     }
+
+    /* Footer */
+    .govbr-footer {
+        background-color: #002855;
+        color: white;
+        margin-top: 2rem;
+    }
+
+    .footer-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .footer-container p {
+        margin: 0.4rem 0;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .footer-flex-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .footer-flex-wrap {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+        }
+        .footer-flex-wrap > div[style*="text-align: right"] {
+            text-align: center !important;
+        }
+        .footer-flex-wrap .logo-govcidades {
+            margin: 0 auto 1rem auto;
+            display: block;
+        }
+        .footer-flex-wrap div[style*="justify-content: flex-end"] {
+            justify-content: center !important;
+        }
+    }
   </style>
 </head>
 
@@ -8258,6 +8304,37 @@
             }
           })();
         </script>
+
+        <footer class="govbr-footer">
+            <div class="container footer-container">
+                <div class="footer-flex-wrap">
+                    <div>
+                        <p><strong>Informações da Secretaria Municipal de Educação | PMI</strong></p>
+                        <p>Rua João Rosa Gonzales, 1242 - Engenho, Itaguaí, Rio de Janeiro - Brasil</p>
+                        <p>CEP: 23.820-380</p>
+                        <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 0.5rem 0;">
+                        <p>Telefone: (21) 3782-9003 | RAMAL DO CPD: 2905</p>
+                        <p>Horário de Funcionamento: 8h às 17h</p>
+                        <p>E-mail: cpdinfra@edu.itaguai.rj.gov.br</p>
+                        <p>E-mail: smedu@itaguai.rj.gov.br ou secretaria@edu.itaguai.rj.gov.br</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <img class="logo-govcidades"
+                            src="https://novoportal.itaguai.rj.gov.br/++resource++gov.cidades/logo-cidades.jpeg"
+                            alt="Prefeitura de Itaguaí" style="max-height: 40px; margin-bottom: 1rem;">
+                        <p><strong>Redes Sociais</strong></p>
+                        <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 0.5rem 0;">
+                        <div
+                            style="display: flex; gap: 1rem; justify-content: flex-end; flex-direction: row; align-items: center;">
+                            <a href="https://www.instagram.com/" target="_blank"
+                                style="color: white; font-size: 1.5rem;"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/?ref=tn_tnmn" target="_blank"
+                                style="color: white; font-size: 1.5rem;"><i class="fa-brands fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
       </main>
     </div>
   </div>
