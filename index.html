@@ -6402,13 +6402,6 @@
                         </div>
                         <select id="aluno" aria-label="Aluno cadastrado" style="display: none;">
                           <option value="">Selecione ou cadastre um aluno...</option>
-                          <option value="demo">Aluno Demonstrativo</option>
-                          <option value="ana">Ana Clara Nascimento</option>
-                          <option value="bruno">Bruno Henrique Silva</option>
-                          <option value="carla">Carla Souza Ribeiro</option>
-                          <option value="diego">Diego Santos Alves</option>
-                          <option value="eduarda">Eduarda Gomes</option>
-                          <option value="lucas">Lucas Mendonça</option>
                         </select>
                         <div id="alunoDropdown" class="aluno-dropdown"
                           style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 280px; overflow-y: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(15, 23, 42, 0.05); z-index: 1000;">
@@ -9545,13 +9538,6 @@
     const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
     const schoolData = { aparecida: { address: 'Estrada do Teixeira, nº 2 - Itaguaí/RJ', phone: '(21) 3782-9003' }, elmir: { address: 'Itaguaí/RJ - endereço cadastrado da unidade', phone: '(21) 3782-9003' }, mignone: { address: 'Itaguaí/RJ - endereço cadastrado da unidade', phone: '(21) 3782-9003' } };
     const studentData = {
-      demo: { nome: 'Aluno Demonstrativo', social: '', nascimento: '2012-05-14', cpf: '111.222.333-44', rg: '12.345.678-9', filiacao: 'Responsável 1 / Responsável 2', responsavel: 'Responsável Demonstrativo', residencia: 'Rua Amélia Louzada, 45 - Fazenda Caxias, Itaguaí - RJ, 23835-006', telefone: '(21) 99999-0000', referencia: 'Parente de referência - Itaguaí/RJ' },
-      ana: { nome: 'Ana Clara Nascimento', social: '', nascimento: '2012-03-11', cpf: '678.901.234-56', rg: '78.901.234-5', filiacao: 'Clara Nascimento / Antônio Nascimento', responsavel: 'Clara Nascimento', residencia: 'Rua Pastor Manuel Avelino de Souza, 120 - Fazenda Caxias, Itaguaí - RJ, 23835-006', telefone: '(21) 99999-1111', referencia: 'Avó materna' },
-      bruno: { nome: 'Bruno Henrique Silva', social: '', nascimento: '2013-07-21', cpf: '456.789.012-34', rg: '56.789.012-3', filiacao: 'Marta Henrique Silva / Jorge Silva', responsavel: 'Marta Henrique Silva', residencia: 'R. João Ramalho, 73 - São Salvador, Itaguaí - RJ, 23810-290', telefone: '(21) 99999-2222', referencia: 'Tia de referência' },
-      carla: { nome: 'Carla Souza Ribeiro', social: '', nascimento: '2010-11-05', cpf: '345.678.901-23', rg: '45.678.901-2', filiacao: 'Juliana Souza Ribeiro / Carlos Ribeiro', responsavel: 'Juliana Souza Ribeiro', residencia: 'Estrada Reta de Piranema, 450 - Parque de Santana, Itaguaí - RJ, 23810-000', telefone: '(21) 99887-1122', referencia: 'Padrasto' },
-      diego: { nome: 'Diego Santos Alves', social: '', nascimento: '2011-01-30', cpf: '567.890.123-45', rg: '67.890.123-4', filiacao: 'Patrícia Santos / Marcos Alves', responsavel: 'Patrícia Santos', residencia: 'Rua Prefeito Dudu, 105 - Monte Serrat, Itaguaí - RJ, 23810-280', telefone: '(21) 98765-4321', referencia: 'Tio de referência' },
-      eduarda: { nome: 'Eduarda Gomes', social: '', nascimento: '2011-09-18', cpf: '123.456.789-01', rg: '23.456.789-0', filiacao: 'Mariana Gomes / Roberto Gomes', responsavel: 'Mariana Gomes', residencia: 'Rua General Bocaiúva, 340 - Centro, Itaguaí - RJ, 23810-000', telefone: '(21) 98877-6655', referencia: 'Tia paterna' },
-      lucas: { nome: 'Lucas Mendonça', social: '', nascimento: '2012-04-22', cpf: '234.567.890-12', rg: '34.567.890-1', filiacao: 'Fernanda Mendonça / Paulo Mendonça', responsavel: 'Fernanda Mendonça', residencia: 'Estrada do Mazomba, 85 - Vila Nova, Itaguaí - RJ, 23815-000', telefone: '(21) 97766-5544', referencia: 'Madrinha' }
     };
 
     // Banco local do protótipo: IndexedDB (persiste alunos e FICAIs neste navegador)
