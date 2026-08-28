@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="ICON.png" type="image/png" />
-  <link rel="apple-touch-icon" href="ICON.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18190,11 +18192,16 @@
 
     // Registrar Service Worker para PWA
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
+      const registerSW = () => {
         navigator.serviceWorker.register('./sw.js').catch(err => {
           console.warn('Registro de Service Worker PWA:', err);
         });
-      });
+      };
+      if (document.readyState === 'complete') {
+        registerSW();
+      } else {
+        window.addEventListener('load', registerSW);
+      }
     }
 
     // Gerenciador Global do PWA e Instalação
@@ -18223,48 +18230,69 @@
     async function triggerPwaInstallFlow() {
       const banner = $('#pwaInstallBanner');
       const promptEvent = deferredPwaPrompt || window.deferredPwaPrompt;
+      const pwaBtnText = $('#pwaBtnText');
+      const pwaDesc = $('#pwaDescText');
+
+      // Se o usuário já estava vendo as instruções e clicou em "Entendi"
+      if (pwaBtnText && pwaBtnText.textContent.trim().toLowerCase() === 'entendi') {
+        if (banner) banner.classList.add('hidden');
+        sessionStorage.setItem('ficaiPwaBannerDismissed', 'true');
+        return;
+      }
 
       if (promptEvent) {
-        if (banner) banner.classList.add('hidden');
         try {
           promptEvent.prompt();
           const choiceResult = await promptEvent.userChoice;
           console.log('PWA Escolha do usuário:', choiceResult.outcome);
           if (choiceResult.outcome === 'accepted') {
             toast('Iniciando instalação do FICAI 4.0...');
+            if (banner) banner.classList.add('hidden');
           }
           deferredPwaPrompt = null;
           window.deferredPwaPrompt = null;
         } catch (err) {
           console.error('Erro ao acionar prompt PWA:', err);
+          if (banner) banner.classList.add('hidden');
         }
       } else {
-        // Se o prompt nativo ainda não disparou ou está no iOS/navegador desktop
+        // Se o prompt nativo ainda não disparou ou está no Desktop / iOS
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                             window.navigator.standalone ||
+                             document.referrer.includes('android-app://');
+
+        if (isStandalone) {
+          toast('O aplicativo FICAI 4.0 já está instalado no seu dispositivo!');
+          if (banner) banner.classList.add('hidden');
+          return;
+        }
+
         if (banner) banner.classList.remove('hidden');
 
         const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isAndroid = /Android/i.test(navigator.userAgent);
-        const pwaDesc = $('#pwaDescText');
-        const pwaBtnText = $('#pwaBtnText');
 
         if (isIos) {
           if (pwaDesc) {
-            pwaDesc.innerHTML = 'Para instalar no <strong>iPhone / iPad</strong>:<br>1. Toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="color:#0284c7;"></i> no Safari.<br>2. Selecione <strong>"Adicionar à Tela de Início"</strong>.';
+            pwaDesc.innerHTML = '<strong>Como instalar no iPhone / iPad:</strong><br>1. Toque no botão <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="color:#0284c7;"></i> no Safari.<br>2. Role e toque em <strong>"Adicionar à Tela de Início"</strong>.';
           }
-          if (pwaBtnText) pwaBtnText.textContent = 'Entendi';
         } else if (isAndroid) {
           if (pwaDesc) {
-            pwaDesc.innerHTML = 'Para instalar no <strong>Android</strong>:<br>1. Toque no menu (<strong>3 pontos</strong> <i class="fa-solid fa-ellipsis-vertical" style="color:#0284c7;"></i>) do Chrome.<br>2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.';
+            pwaDesc.innerHTML = '<strong>Como instalar no Android:</strong><br>1. Toque nos <strong>3 pontos</strong> <i class="fa-solid fa-ellipsis-vertical" style="color:#0284c7;"></i> no topo do Chrome.<br>2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.';
           }
-          if (pwaBtnText) pwaBtnText.textContent = 'Entendi';
         } else {
           if (pwaDesc) {
-            pwaDesc.innerHTML = 'Para instalar no <strong>Desktop / PC</strong>:<br>1. Clique no ícone de <strong>Instalar</strong> <i class="fa-solid fa-download" style="color:#0284c7;"></i> na barra de endereços (URL) do navegador.<br>2. Ou vá no Menu (3 pontos) &rarr; <strong>Salvar e Compartilhar</strong> &rarr; <strong>Instalar FICAI</strong>.';
+            pwaDesc.innerHTML = '<strong>Como instalar no seu computador:</strong><br>1. Clique no ícone de <strong>Instalar</strong> <i class="fa-solid fa-download" style="color:#0284c7;"></i> na <strong>barra de endereços do navegador</strong> (ao lado da estrela de favoritos).<br>2. Ou abra o menu (<strong>⋮</strong> três pontos) &rarr; <strong>"Instalar FICAI SMEDU..."</strong>.';
           }
-          if (pwaBtnText) pwaBtnText.textContent = 'Entendi';
         }
 
-        toast('Use o banner na tela ou o menu do navegador para instalar o app.');
+        if (pwaBtnText) {
+          pwaBtnText.innerHTML = 'Entendi';
+          const btnIcon = $('#btnPwaInstallAction i');
+          if (btnIcon) btnIcon.className = 'fa-solid fa-check';
+        }
+
+        toast('Siga as instruções acima para instalar o aplicativo no seu navegador.');
       }
     }
 
@@ -18284,12 +18312,7 @@
       if (btnInstall) {
         btnInstall.onclick = (e) => {
           e.preventDefault();
-          if (deferredPwaPrompt || window.deferredPwaPrompt) {
-            triggerPwaInstallFlow();
-          } else {
-            if (banner) banner.classList.add('hidden');
-            sessionStorage.setItem('ficaiPwaBannerDismissed', 'true');
-          }
+          triggerPwaInstallFlow();
         };
       }
 
@@ -18323,7 +18346,7 @@
   <!-- BANNER DE INSTALAÇÃO INTELIGENTE PWA -->
   <div id="pwaInstallBanner" class="pwa-banner-card hidden">
     <div class="pwa-banner-content">
-      <img src="ICON.png" alt="FICAISMEDU Icon" class="pwa-app-icon">
+      <img src="icon-192.png" alt="FICAISMEDU Icon" class="pwa-app-icon">
       <div class="pwa-text-group">
         <div class="pwa-app-title">Instalar App FICAISMEDU</div>
         <p class="pwa-app-desc" id="pwaDescText">
