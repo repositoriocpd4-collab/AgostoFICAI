@@ -1,13 +1,14 @@
-const CACHE_NAME = 'ficaismedu-v4.2.2';
+const CACHE_NAME = 'ficaismedu-v4.2.3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
+  './ICON.png',
+  './icon-192.png',
+  './icon-512.png',
   './favicon.svg',
   './favicon.ico',
   './favicon.png',
-  './icon-192.png',
-  './icon-512.png',
   './supabase_client.js'
 ];
 

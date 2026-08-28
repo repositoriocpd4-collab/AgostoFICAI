@@ -18227,7 +18227,9 @@
       }
     }
 
-    // Gerenciador Global do PWA e Instalação
+    // ==============================================================================
+    // GERENCIADOR GLOBAL DO PWA E INSTALAÇÃO
+    // ==============================================================================
     let deferredPwaPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -18235,22 +18237,26 @@
       window.deferredPwaPrompt = e;
       console.log('✅ PWA: beforeinstallprompt capturado com sucesso!');
       
-      const banner = $('#pwaInstallBanner');
+      const banner = document.getElementById('pwaInstallBanner');
       if (banner && !sessionStorage.getItem('ficaiPwaBannerDismissed')) {
         banner.classList.remove('hidden');
+        banner.style.display = 'flex';
       }
     });
 
     window.addEventListener('appinstalled', () => {
       console.log('✅ PWA instalado com sucesso!');
-      toast('FICAI 4.0 instalado com sucesso!');
-      const banner = $('#pwaInstallBanner');
-      if (banner) banner.classList.add('hidden');
+      toast('FICAI 4.0 instalado com sucesso na sua tela inicial!');
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+        banner.style.display = 'none';
+      }
       deferredPwaPrompt = null;
       window.deferredPwaPrompt = null;
     });
 
-    async function triggerPwaInstallFlow() {
+    window.triggerPwaInstallFlow = async function() {
       const banner = document.getElementById('pwaInstallBanner');
       const promptEvent = deferredPwaPrompt || window.deferredPwaPrompt;
       const pwaBtnText = document.getElementById('pwaBtnText');
@@ -18320,7 +18326,7 @@
           }
         } else {
           if (pwaDesc) {
-            pwaDesc.innerHTML = '<strong>Como instalar no seu computador:</strong><br>1. Clique no ícone de <strong>Instalar</strong> <i class="fa-solid fa-download" style="color:#0284c7;"></i> na <strong>barra de endereços do navegador</strong> (ao lado da estrela de favoritos).<br>2. Ou abra o menu (<strong>⋮</strong> três pontos) &rarr; <strong>"Instalar FICAI SMEDU..."</strong>.';
+            pwaDesc.innerHTML = '<strong>Como instalar no computador:</strong><br>1. Clique no ícone de <strong>Instalar</strong> <i class="fa-solid fa-download" style="color:#0284c7;"></i> na <strong>barra de endereços do navegador</strong> (ao lado da estrela).<br>2. Ou abra o menu (<strong>⋮</strong>) &rarr; <strong>"Instalar FICAI SMEDU..."</strong>.';
           }
         }
 
@@ -18330,9 +18336,30 @@
           if (btnIcon) btnIcon.className = 'fa-solid fa-check';
         }
 
-        toast('Siga as instruções acima para instalar o aplicativo.');
+        toast('Siga as instruções acima para concluir a instalação.');
       }
-    }
+    };
+
+    window.handlePwaInstallClick = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      window.triggerPwaInstallFlow();
+    };
+
+    window.handlePwaDismissClick = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+        banner.style.display = 'none';
+      }
+      sessionStorage.setItem('ficaiPwaBannerDismissed', 'true');
+    };
 
     function initPwaInstallSystem() {
       const banner = document.getElementById('pwaInstallBanner');
@@ -18340,39 +18367,18 @@
       const btnDismiss = document.getElementById('btnPwaDismiss');
       const btnHeaderInstall = document.getElementById('btnHeaderInstallPwa');
 
-      const handleDismiss = (e) => {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        if (banner) {
-          banner.classList.add('hidden');
-          banner.style.display = 'none';
-        }
-        sessionStorage.setItem('ficaiPwaBannerDismissed', 'true');
-      };
-
-      const handleInstall = (e) => {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        triggerPwaInstallFlow();
-      };
-
       if (btnHeaderInstall) {
-        btnHeaderInstall.onclick = handleInstall;
+        btnHeaderInstall.onclick = window.handlePwaInstallClick;
       }
 
       if (btnInstall) {
-        btnInstall.onclick = handleInstall;
+        btnInstall.onclick = window.handlePwaInstallClick;
       }
 
       if (btnDismiss) {
-        btnDismiss.onclick = handleDismiss;
+        btnDismiss.onclick = window.handlePwaDismissClick;
       }
 
-      // Se não for standalone e não tiver sido dispensado na sessão, mostra o banner após carregar
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
                            window.navigator.standalone ||
                            document.referrer.includes('android-app://');
@@ -18386,6 +18392,11 @@
         }, 1200);
       }
     }
+
+    // Inicialização da aplicação
+    document.addEventListener('DOMContentLoaded', () => {
+      initPwaInstallSystem();
+    });
 
     initActionButtonsBindings();
     initSystemLogsListeners();
@@ -18406,10 +18417,10 @@
       </div>
     </div>
     <div class="pwa-banner-actions">
-      <button type="button" class="btn primary pwa-install-btn" id="btnPwaInstallAction">
+      <button type="button" class="btn primary pwa-install-btn" id="btnPwaInstallAction" onclick="handlePwaInstallClick(event)">
         <i class="fa-solid fa-download"></i> <span id="pwaBtnText">Instalar</span>
       </button>
-      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss">Agora não</button>
+      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss" onclick="handlePwaDismissClick(event)">Agora não</button>
     </div>
   </div>
 
