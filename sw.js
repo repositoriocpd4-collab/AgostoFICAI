@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ficaismedu-v4.2.3';
+const CACHE_NAME = 'ficaismedu-v4.2.4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -34,14 +34,46 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+self.addEventListener('message', event => {
+  if (event.data && (event.data.type === 'SKIP_WAITING' || event.data === 'skipWaiting')) {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+
+  const isHtml = event.request.mode === 'navigate' ||
+                 event.request.headers.get('accept')?.includes('text/html') ||
+                 event.request.url.endsWith('/') ||
+                 event.request.url.includes('index.html');
+
+  if (isHtml) {
+    // Network-First para páginas HTML (permite detectar nova versão imediatamente)
+    event.respondWith(
+      fetch(event.request)
+        .then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request).then(cached => cached || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Cache-First com fallback para rede para ativos estáticos
   event.respondWith(
     caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).catch(() => {
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('./index.html');
+      if (cached) return cached;
+      return fetch(event.request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
         }
+        return networkResponse;
       });
     })
   );

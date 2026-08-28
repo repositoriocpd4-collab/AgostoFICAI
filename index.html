@@ -5040,6 +5040,24 @@
       z-index: 100006 !important;
     }
 
+    .pwa-update-banner {
+      border: 1.5px solid rgba(2, 132, 199, 0.4) !important;
+      box-shadow: 0 18px 45px rgba(2, 132, 199, 0.32), 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    .pwa-update-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 22px;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+      flex-shrink: 0;
+    }
+
     /* ==============================================================================
        BARRA DE NAVEGAÇÃO INFERIOR MOBILE (BOTTOM NAV AZUL SMEDU PREMIUM)
        ============================================================================== */
@@ -10081,6 +10099,27 @@
         <i class="fa-solid fa-download"></i> <span id="pwaBtnText">Instalar</span>
       </button>
       <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss" onclick="handlePwaDismissClick(event)">Agora não</button>
+    </div>
+  </div>
+
+  <!-- BANNER DE ATUALIZAÇÃO DISPONÍVEL PWA -->
+  <div id="pwaUpdateBanner" class="pwa-banner-card pwa-update-banner hidden">
+    <div class="pwa-banner-content">
+      <div class="pwa-update-icon-wrap">
+        <i class="fa-solid fa-arrows-rotate fa-spin-pulse"></i>
+      </div>
+      <div class="pwa-text-group">
+        <div class="pwa-app-title">Nova Atualização Disponível!</div>
+        <p class="pwa-app-desc" id="pwaUpdateDescText">
+          Uma nova versão do FICAI 4.0 está pronta com melhorias e correções. Clique em "Atualizar" para aplicar agora.
+        </p>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="btn primary pwa-install-btn" id="btnPwaUpdateAction" onclick="handlePwaUpdateClick(event)">
+        <i class="fa-solid fa-cloud-arrow-down"></i> <span id="pwaUpdateBtnText">Atualizar</span>
+      </button>
+      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismissUpdate" onclick="handlePwaDismissUpdateClick(event)">Depois</button>
     </div>
   </div>
 
@@ -18252,13 +18291,106 @@
       updateBadgeCount();
     }
 
-    // Registrar Service Worker para PWA
+    // ==============================================================================
+    // REGISTRO E GERENCIADOR DE ATUALIZAÇÕES PWA (SMARTPHONE E DESKTOP)
+    // ==============================================================================
+    let pwaWaitingWorker = null;
+    let isRefreshingPage = false;
+
     if ('serviceWorker' in navigator) {
-      const registerSW = () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => {
-          console.warn('Registro de Service Worker PWA:', err);
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!isRefreshingPage) {
+          isRefreshingPage = true;
+          window.location.reload();
+        }
+      });
+    }
+
+    function showUpdatePrompt(worker) {
+      pwaWaitingWorker = worker;
+      const updateBanner = document.getElementById('pwaUpdateBanner');
+      if (updateBanner) {
+        updateBanner.classList.remove('hidden');
+        updateBanner.style.display = 'flex';
+      }
+      toast('Nova versão do FICAI 4.0 disponível! Clique em Atualizar.');
+    }
+
+    window.handlePwaUpdateClick = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const updateBtnText = document.getElementById('pwaUpdateBtnText');
+      if (updateBtnText) updateBtnText.textContent = 'Atualizando...';
+
+      if (pwaWaitingWorker) {
+        pwaWaitingWorker.postMessage({ type: 'SKIP_WAITING' });
+      } else if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then(reg => {
+          if (reg && reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          } else {
+            window.location.reload();
+          }
         });
+      } else {
+        window.location.reload();
+      }
+    };
+
+    window.handlePwaDismissUpdateClick = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const updateBanner = document.getElementById('pwaUpdateBanner');
+      if (updateBanner) {
+        updateBanner.classList.add('hidden');
+        updateBanner.style.display = 'none';
+      }
+    };
+
+    function initServiceWorkerUpdater() {
+      if (!('serviceWorker' in navigator)) return;
+
+      const registerSW = async () => {
+        try {
+          const reg = await navigator.serviceWorker.register('./sw.js');
+          console.log('✅ Service Worker registrado:', reg.scope);
+
+          // 1. Se já houver um worker aguardando na fila
+          if (reg.waiting) {
+            showUpdatePrompt(reg.waiting);
+          }
+
+          // 2. Ouvir atualizações que forem detectadas
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdatePrompt(newWorker);
+              }
+            });
+          });
+
+          // 3. Checar atualizações periodicamente (a cada 20 min) e ao focar a página
+          setInterval(() => {
+            reg.update().catch(() => {});
+          }, 20 * 60 * 1000);
+
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              reg.update().catch(() => {});
+            }
+          });
+        } catch (err) {
+          console.warn('Registro do Service Worker PWA:', err);
+        }
       };
+
       if (document.readyState === 'complete') {
         registerSW();
       } else {
@@ -18267,7 +18399,7 @@
     }
 
     // ==============================================================================
-    // GERENCIADOR GLOBAL DO PWA E INSTALAÇÃO
+    // GERENCIADOR GLOBAL DE INSTALAÇÃO PWA
     // ==============================================================================
     let deferredPwaPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -18434,9 +18566,11 @@
 
     // Inicialização da aplicação
     document.addEventListener('DOMContentLoaded', () => {
+      initServiceWorkerUpdater();
       initPwaInstallSystem();
     });
 
+    initServiceWorkerUpdater();
     initActionButtonsBindings();
     initSystemLogsListeners();
     initNotificationCenter();
