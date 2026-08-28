@@ -10065,6 +10065,45 @@
     </div>
   </div>
 
+  <!-- BANNER DE INSTALAÇÃO INTELIGENTE PWA -->
+  <div id="pwaInstallBanner" class="pwa-banner-card hidden">
+    <div class="pwa-banner-content">
+      <img src="ICON.png" alt="FICAISMEDU Icon" class="pwa-app-icon">
+      <div class="pwa-text-group">
+        <div class="pwa-app-title">Instalar App FICAISMEDU</div>
+        <p class="pwa-app-desc" id="pwaDescText">
+          Instale o aplicativo FICAI 4.0 na sua tela inicial para acesso rápido, notificações e uso em tela cheia.
+        </p>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button type="button" class="btn primary pwa-install-btn" id="btnPwaInstallAction" onclick="handlePwaInstallClick(event)">
+        <i class="fa-solid fa-download"></i> <span id="pwaBtnText">Instalar</span>
+      </button>
+      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss" onclick="handlePwaDismissClick(event)">Agora não</button>
+    </div>
+  </div>
+
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR MOBILE (BOTTOM NAV AZUL SMEDU PREMIUM) -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a class="bottom-nav-item active" data-view="dashboard" onclick="showView('dashboard')" title="Dashboard FICAI" aria-label="Dashboard">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-chart-pie"></i></div>
+      <span class="bottom-nav-label">Dashboard</span>
+    </a>
+    <a class="bottom-nav-item" data-view="gerar" onclick="showView('gerar')" title="Gerar FICAI" aria-label="Gerar">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
+      <span class="bottom-nav-label">Gerar</span>
+    </a>
+    <a class="bottom-nav-item" data-view="rae" onclick="showView('rae')" title="RAE" aria-label="RAE">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+      <span class="bottom-nav-label">RAE</span>
+    </a>
+    <a class="bottom-nav-item" data-view="cancelamento" onclick="showView('cancelamento')" title="Cancelar FICAI" aria-label="Cancelar">
+      <div class="bottom-nav-icon"><i class="fa-solid fa-ban"></i></div>
+      <span class="bottom-nav-label">Cancelar</span>
+    </a>
+  </nav>
+
   <script>
     const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
     const schoolData = { aparecida: { address: 'Estrada do Teixeira, nº 2 - Itaguaí/RJ', phone: '(21) 3782-9003' }, elmir: { address: 'Itaguaí/RJ - endereço cadastrado da unidade', phone: '(21) 3782-9003' }, mignone: { address: 'Itaguaí/RJ - endereço cadastrado da unidade', phone: '(21) 3782-9003' } };
@@ -18126,11 +18165,11 @@
 
       // 6. Barra de Navegação Inferior Mobile (Bottom Nav)
       $$('.bottom-nav-item').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.onclick = (e) => {
           e.preventDefault();
           const targetView = btn.dataset.view;
           if (targetView) showView(targetView);
-        });
+        };
       });
     }
 
@@ -18404,45 +18443,6 @@
     initPwaInstallSystem();
     initAuthSystem(); restore(); autoPopulateLoggedSchoolInForm(); syncPrint(); loadSavedStudents(); loadSavedFicais(); loadSavedLogsFromSupabase(); syncConselhoTableFromDatabase(); updateAllDynamicStats(); setWizardStep(1);
   </script>
-
-  <!-- BANNER DE INSTALAÇÃO INTELIGENTE PWA -->
-  <div id="pwaInstallBanner" class="pwa-banner-card hidden">
-    <div class="pwa-banner-content">
-      <img src="ICON.png" alt="FICAISMEDU Icon" class="pwa-app-icon">
-      <div class="pwa-text-group">
-        <div class="pwa-app-title">Instalar App FICAISMEDU</div>
-        <p class="pwa-app-desc" id="pwaDescText">
-          Instale o aplicativo FICAI 4.0 na sua tela inicial para acesso rápido, notificações e uso em tela cheia.
-        </p>
-      </div>
-    </div>
-    <div class="pwa-banner-actions">
-      <button type="button" class="btn primary pwa-install-btn" id="btnPwaInstallAction" onclick="handlePwaInstallClick(event)">
-        <i class="fa-solid fa-download"></i> <span id="pwaBtnText">Instalar</span>
-      </button>
-      <button type="button" class="btn soft pwa-dismiss-btn" id="btnPwaDismiss" onclick="handlePwaDismissClick(event)">Agora não</button>
-    </div>
-  </div>
-
-  <!-- BARRA DE NAVEGAÇÃO INFERIOR MOBILE (BOTTOM NAV AZUL SMEDU PREMIUM) -->
-  <nav class="mobile-bottom-nav" id="mobileBottomNav">
-    <a class="bottom-nav-item active" data-view="dashboard" title="Dashboard FICAI" aria-label="Dashboard">
-      <div class="bottom-nav-icon"><i class="fa-solid fa-chart-pie"></i></div>
-      <span class="bottom-nav-label">Dashboard</span>
-    </a>
-    <a class="bottom-nav-item" data-view="gerar" title="Gerar FICAI" aria-label="Gerar">
-      <div class="bottom-nav-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
-      <span class="bottom-nav-label">Gerar</span>
-    </a>
-    <a class="bottom-nav-item" data-view="rae" title="RAE" aria-label="RAE">
-      <div class="bottom-nav-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
-      <span class="bottom-nav-label">RAE</span>
-    </a>
-    <a class="bottom-nav-item" data-view="cancelamento" title="Cancelar FICAI" aria-label="Cancelar">
-      <div class="bottom-nav-icon"><i class="fa-solid fa-ban"></i></div>
-      <span class="bottom-nav-label">Cancelar</span>
-    </a>
-  </nav>
 </body>
 
 </html>
